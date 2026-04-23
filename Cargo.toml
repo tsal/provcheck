@@ -2,6 +2,7 @@
 members = [
     "crates/provcheck-core",
     "crates/provcheck-cli",
+    "crates/provcheck-examples",
 ]
 resolver = "2"
 

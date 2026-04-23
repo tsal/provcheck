@@ -50,6 +50,20 @@ cargo build --release -p provcheck-cli
 ./target/release/provcheck <file>
 ```
 
+## Try it
+
+Two example signed files ship with the repo — a rAIdio.bot music
+clip and a vAIdeo.bot / DoomscrollFM video bumper. Both verify
+cleanly:
+
+```bash
+provcheck examples/rAIdio.bot-sample.mp3
+provcheck examples/vAIdeo.bot-sample.mp4
+```
+
+See [`examples/README.md`](./examples/README.md) for what's in each
+sample and how they're signed.
+
 ## Use
 
 Human-readable:

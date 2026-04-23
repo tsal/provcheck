@@ -1890,6 +1890,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "provcheck-examples"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "c2pa",
+ "clap",
+ "rcgen",
+]
+
+[[package]]
 name = "quick-xml"
 version = "0.39.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -1,0 +1,19 @@
+[package]
+name = "provcheck-examples"
+description = "Regenerates provcheck's branded example signed media. Internal tool."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+publish = false
+
+[[bin]]
+name = "provcheck-examples"
+path = "src/main.rs"
+
+[dependencies]
+c2pa.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+rcgen = { version = "0.14", features = ["x509-parser"] }

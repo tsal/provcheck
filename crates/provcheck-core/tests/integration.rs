@@ -207,6 +207,54 @@ fn find_subslice(haystack: &[u8], needle: &[u8]) -> Option<usize> {
         .position(|w| w == needle)
 }
 
+/// The `examples/` directory at the repo root ships two pre-signed
+/// sample files as documentation + subtle product advertisement. If
+/// someone regenerates them improperly (bad cert, corrupt manifest,
+/// wrong sidecar), this test catches it at CI time before any
+/// contributor sees a broken verification on the reference samples.
+///
+/// The test is skipped if the files are absent — e.g., when running
+/// the core crate in isolation outside the workspace checkout.
+#[test]
+fn shipped_examples_verify() {
+    // Tests run from `crates/provcheck-core/`; the examples dir is
+    // two levels up.
+    let repo_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .and_then(|p| p.parent())
+        .expect("repo root");
+    let examples = repo_root.join("examples");
+
+    if !examples.exists() {
+        eprintln!("examples/ dir not present — skipping");
+        return;
+    }
+
+    for (filename, expected_signer) in [
+        ("rAIdio.bot-sample.mp3", "rAIdio.bot"),
+        ("vAIdeo.bot-sample.mp4", "vAIdeo.bot"),
+    ] {
+        let path = examples.join(filename);
+        if !path.exists() {
+            eprintln!("{} not present — skipping", path.display());
+            continue;
+        }
+        let report = verify(&path).expect("verify returns Ok");
+        assert!(
+            report.verified,
+            "{} must verify cleanly; got {:?}",
+            filename,
+            report
+        );
+        assert_eq!(
+            report.signer.as_deref(),
+            Some(expected_signer),
+            "{}: wrong signer",
+            filename
+        );
+    }
+}
+
 #[test]
 fn unsupported_format_reports_unsigned_not_error() {
     let tmp = tempfile::tempdir().expect("tmp");
