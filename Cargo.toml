@@ -1,0 +1,34 @@
+[workspace]
+members = [
+    "crates/provcheck-core",
+    "crates/provcheck-cli",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "Apache-2.0"
+authors = ["Creative Mayhem UG <info@rAIdio.bot>"]
+repository = "https://github.com/rAIdio-bot/provcheck"
+homepage = "https://github.com/rAIdio-bot/provcheck"
+readme = "README.md"
+
+[workspace.dependencies]
+# Pinned to match rAIdio.bot. Bump here when rAIdio.bot bumps.
+# `default-features = false` + `rust_native_crypto` avoids the openssl-sys
+# build (which needs a working OpenSSL + Perl toolchain — painful on
+# Windows). `file_io` turns on the path-based reader/writer API.
+c2pa = { version = "0.78", default-features = false, features = ["file_io", "rust_native_crypto"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+clap = { version = "4", features = ["derive"] }
+anyhow = "1"
+thiserror = "2"
+
+[profile.release]
+opt-level = "z"      # size-optimise the distributable binaries
+lto = true
+codegen-units = 1
+strip = true

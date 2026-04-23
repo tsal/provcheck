@@ -1,0 +1,22 @@
+# Rust build output
+/target/
+**/*.rs.bk
+# Cargo.lock IS committed — this is a binary-producing workspace, so
+# the lock file pins every dep to a reproducible version. Library
+# crates omit it; binary crates commit it.
+
+# Tauri build output (Stage 3)
+/app/src-tauri/target/
+/app/dist/
+/app/node_modules/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Large binary test fixtures are committed when small (<2 MB). Larger
+# ones go through Git LFS — uncomment if we adopt LFS later.
+# *.mp4
+# *.mov
