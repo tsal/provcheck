@@ -42,11 +42,12 @@ jobs:
             archive: tar.gz
             artefact_suffix: linux-x86_64
             bin_ext: ""
-          - os: macos-13 # x86_64 runner
-            target: x86_64-apple-darwin
-            archive: tar.gz
-            artefact_suffix: macos-x86_64
-            bin_ext: ""
+          # Intel macOS (x86_64-apple-darwin) is intentionally omitted:
+          # GitHub's macos-13 hosted runners queue unpredictably (multi-
+          # hour waits as of 2026-Q2) while they wind down Intel fleet
+          # capacity. Intel Mac users can run the aarch64 binary under
+          # Rosetta or use `cargo install provcheck-cli`. Revisit when
+          # GitHub either restores capacity or we self-host.
           - os: macos-14 # aarch64 runner
             target: aarch64-apple-darwin
             archive: tar.gz

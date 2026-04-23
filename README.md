@@ -1,13 +1,9 @@
 # provcheck
 
-**Download:**
-[Windows](https://github.com/CreativeMayhemLtd/provcheck/releases) ·
-[Linux](https://github.com/CreativeMayhemLtd/provcheck/releases) ·
-[Apple](https://github.com/CreativeMayhemLtd/provcheck/releases) ·
-[Source](https://github.com/CreativeMayhemLtd/provcheck/archive/refs/heads/main.zip)
-
-*(Binary releases are coming with Milestone 4 — see [Status](#status).
-Until then the platform links land on the Releases page, source archive is live now.)*
+**Install:** `cargo install provcheck-cli` · or grab a
+[release binary](https://github.com/CreativeMayhemLtd/provcheck/releases)
+(Windows / Linux / macOS) · or
+[build from source](https://github.com/CreativeMayhemLtd/provcheck/archive/refs/heads/main.zip).
 
 ---
 
@@ -29,20 +25,37 @@ machine.
 
 ## Status
 
-**Milestone 1 in progress.** Repo scaffold landing; core verification
-wiring + fixture tests next. See the [milestones section](#milestones)
-below for the full roadmap.
+**v0.1.0 shipped.** CLI + library published on crates.io, release
+binaries on GitHub for Windows / Linux / macOS (Apple Silicon). GUI
+app builds locally; installer-in-CI is a Milestone 4 follow-up.
+See the [milestones section](#milestones) below for the full roadmap.
 
 ## Install
 
-### Pre-built binaries (Stage 1, coming soon)
+### Via cargo (any platform with a Rust toolchain)
+
+```bash
+cargo install provcheck-cli
+```
+
+Puts a `provcheck` binary on your `PATH`. This is the fastest path
+if you already have Rust installed. Published to crates.io:
+
+- [`provcheck-cli`](https://crates.io/crates/provcheck-cli) — the binary.
+- [`provcheck-core`](https://crates.io/crates/provcheck-core) — the
+  library, for embedding the verifier in your own Rust tool.
+
+### Pre-built binaries
 
 Download the matching archive from the [Releases page](https://github.com/CreativeMayhemLtd/provcheck/releases)
 or grab it directly from [provcheck.ai](https://provcheck.ai) and unpack:
 
 - Windows — `provcheck-<version>-windows-x86_64.zip`
-- macOS — `provcheck-<version>-macos-{x86_64,aarch64}.tar.gz`
+- macOS (Apple Silicon) — `provcheck-<version>-macos-aarch64.tar.gz`
 - Linux — `provcheck-<version>-linux-x86_64.tar.gz`
+
+Intel Mac users: run the Apple Silicon binary through Rosetta, or
+use `cargo install provcheck-cli` above.
 
 ### GUI app (Stage 1, coming soon)
 
@@ -135,10 +148,11 @@ a non-technical recipient at.
 
 | # | Deliverable | Status |
 |---|---|---|
-| 1 | Workspace scaffold + `provcheck-core` crate + fixtures | In progress |
-| 2 | `provcheck-cli` with human + JSON output, integration tests | Pending |
-| 3 | Tauri GUI (drag-drop verifier) | Pending |
-| 4 | CI + GitHub Releases for Win/Mac/Linux | In progress (workflows landed, first tagged release pending) |
+| 1 | Workspace scaffold + `provcheck-core` crate + fixtures | Done |
+| 2 | `provcheck-cli` with human + JSON output, integration tests | Done |
+| 3 | Tauri GUI (drag-drop verifier) | Done (local build; installer CI in M4 follow-up) |
+| 4 | CI + GitHub Releases for Win/Mac/Linux | Done (v0.1.0; Intel-mac binary deferred — use `cargo install` or Rosetta) |
+| — | Crates.io publication | Done — [`provcheck-cli`](https://crates.io/crates/provcheck-cli) + [`provcheck-core`](https://crates.io/crates/provcheck-core) |
 | 5 | Bundle CLI inside rAIdio.bot `tools/` + `build.ps1` gate | Pending |
 | 6 | Website download page + vAIdeo.bot bundling | Deferred |
 
