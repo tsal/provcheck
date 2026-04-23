@@ -1,5 +1,15 @@
 # provcheck
 
+**Download:**
+[Windows](https://github.com/CreativeMayhemLtd/provcheck/releases/latest/download/provcheck-windows-x64.zip) ·
+[Linux](https://github.com/CreativeMayhemLtd/provcheck/releases/latest/download/provcheck-linux-x64.tar.gz) ·
+[Apple](https://github.com/CreativeMayhemLtd/provcheck/releases/latest/download/provcheck-macos.dmg) ·
+[Source](https://github.com/CreativeMayhemLtd/provcheck/archive/refs/heads/main.zip)
+
+*(Binary download links activate with the first tagged release — see [Status](#status). Until then, build from source or grab a test build from [provcheck.ai](https://provcheck.ai).)*
+
+---
+
 **Verify C2PA Content Credentials on any file, from any vendor, on any platform.**
 
 `provcheck` is a free, open-source, offline desktop + command-line
