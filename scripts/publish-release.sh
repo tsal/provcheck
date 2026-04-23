@@ -148,7 +148,12 @@ for art in "${ARTIFACTS[@]}"; do
   GH_ARGS+=("$art")
 done
 
-gh "${GH_ARGS[@]}"
+# `gh` prefers $GITHUB_TOKEN over its keyring login. If the env var
+# is stale (common when a local shell has an old PAT exported), every
+# API call 401s even though the user is actually authed via the gh
+# keyring. Clear it for this call so keyring auth takes over. Without
+# this line, the v0.1.0 release cut 401'd at the final step.
+GITHUB_TOKEN= gh "${GH_ARGS[@]}"
 
 echo
 echo "Done. Release live at: https://github.com/${REPO_PUBLIC}/releases/tag/${TAG}"

@@ -118,3 +118,122 @@ jobs:
             ${{ steps.stage.outputs.archive_name }}.sha256
           if-no-files-found: error
           retention-days: 30
+
+  # Tauri GUI desktop app. Separate matrix from the CLI because the
+  # platform bundle formats are different (installers, not archives)
+  # and the Linux build needs distro-specific system packages. Bundles
+  # are UNSIGNED for now — no Apple Developer ID, no Authenticode cert.
+  # Users will see Gatekeeper / SmartScreen warnings. Signing is a
+  # follow-up once certs exist.
+  build-gui:
+    name: build-gui (${{ matrix.gui_suffix }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            gui_suffix: windows-x86_64
+            # Windows bundles: NSIS .exe installer + MSI.
+            bundle_glob: "app/src-tauri/target/release/bundle/{nsis,msi}/*.{exe,msi}"
+          - os: ubuntu-latest
+            gui_suffix: linux-x86_64
+            # Linux bundles: .deb + .AppImage. rpm omitted (distro-
+            # specific) — deb+AppImage cover the common cases.
+            bundle_glob: "app/src-tauri/target/release/bundle/{deb,appimage}/*.{deb,AppImage}"
+          - os: macos-14
+            gui_suffix: macos-aarch64
+            # macOS bundle: .dmg (the .app bundle is already inside).
+            bundle_glob: "app/src-tauri/target/release/bundle/dmg/*.dmg"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: app/package-lock.json
+
+      # Tauri 2 on Linux needs webkit2gtk-4.1 and friends. The list
+      # here matches the official Tauri 2 prerequisites page (2026-Q2).
+      - name: Install Linux build deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            build-essential \
+            curl \
+            wget \
+            file \
+            libxdo-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev
+
+      - name: npm ci
+        working-directory: app
+        run: npm ci
+
+      - name: tauri build
+        working-directory: app
+        run: npm run tauri:build
+
+      - name: Resolve release tag
+        id: tag
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "value=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Collect whatever bundle files this platform produced and
+      # emit sha256 sidecars. Upload-artifact's `path` glob handles
+      # the rest; we just need the dir contents flat.
+      - name: Stage bundles
+        id: stage
+        shell: bash
+        run: |
+          stage_dir="provcheck-gui-${{ steps.tag.outputs.value }}-${{ matrix.gui_suffix }}"
+          mkdir -p "$stage_dir"
+
+          # shopt-less glob expansion works everywhere including
+          # windows-latest bash.
+          shopt -s nullglob globstar || true
+          for f in ${{ matrix.bundle_glob }}; do
+            cp "$f" "$stage_dir/"
+          done
+
+          # Fail fast if the build produced nothing — means the bundle
+          # step silently skipped this platform's target.
+          if [[ -z "$(ls -A "$stage_dir")" ]]; then
+            echo "::error::No GUI bundles produced for ${{ matrix.gui_suffix }}"
+            exit 1
+          fi
+
+          # sha256 sidecars
+          cd "$stage_dir"
+          for f in *; do
+            if command -v sha256sum >/dev/null; then
+              sha256sum "$f" > "${f}.sha256"
+            else
+              shasum -a 256 "$f" > "${f}.sha256"
+            fi
+          done
+          cd ..
+
+          echo "stage_dir=$stage_dir" >> "$GITHUB_OUTPUT"
+
+      - name: Upload GUI artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: provcheck-gui-${{ steps.tag.outputs.value }}-${{ matrix.gui_suffix }}
+          path: ${{ steps.stage.outputs.stage_dir }}/*
+          if-no-files-found: error
+          retention-days: 30
