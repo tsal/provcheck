@@ -71,6 +71,25 @@ sidecar.
 provcheck examples/doomscroll.fm-sample.mp4
 ```
 
+## `unsigned-sample.mp3` and `unsigned-sample.mp4`
+
+33 KB and 46 KB respectively. Both are **deliberately unsigned** —
+they exist to demonstrate the UNSIGNED verdict without you having
+to hunt for a random file that happens to have no C2PA manifest.
+
+Content: a 2-second 440 Hz sine tone at low amplitude (fade-in and
+fade-out to avoid clicks). The MP4 adds a muted dark-blue background
+with a subtle hue-pulse and the text "unsigned example" in the
+middle. Gentle on the ears, gentle on the eyes.
+
+```
+provcheck examples/unsigned-sample.mp3
+provcheck examples/unsigned-sample.mp4
+```
+
+Both report `[UNSIGNED]` and exit 1. That's the shape every file
+without C2PA credentials takes, from any source.
+
 ## Regenerating
 
 Both samples are produced deterministically from the upstream source

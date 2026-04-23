@@ -253,6 +253,27 @@ fn shipped_examples_verify() {
             filename
         );
     }
+
+    // Deliberately-unsigned samples ship alongside the signed ones
+    // so the UNSIGNED verdict is demonstrable without hunting for
+    // a random unsigned file. Gentle 2-second tone clips — MP3 +
+    // MP4 — with zero C2PA manifest.
+    for filename in ["unsigned-sample.mp3", "unsigned-sample.mp4"] {
+        let path = examples.join(filename);
+        if !path.exists() {
+            eprintln!("{} not present — skipping", path.display());
+            continue;
+        }
+        let report = verify(&path).expect("verify returns Ok");
+        assert!(
+            report.unsigned,
+            "{} must report unsigned=true; got {:?}",
+            filename,
+            report
+        );
+        assert!(!report.verified);
+        assert_eq!(report.exit_code(), 1);
+    }
 }
 
 #[test]
