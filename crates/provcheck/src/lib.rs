@@ -20,7 +20,6 @@
 //! # Ok::<(), Error>(())
 //! ```
 
-use report::Report;
 pub mod report;
 pub mod verification;
 
@@ -92,8 +91,8 @@ fn is_manifest_parse_error(err: &c2pa::Error) -> bool {
     )
 }
 
-fn unsigned_report(reason: Option<String>) -> Report {
-    Report {
+fn unsigned_report(reason: Option<String>) -> prelude::Report {
+    prelude::Report {
         verified: false,
         unsigned: true,
         trusted: None,
@@ -168,20 +167,7 @@ mod tests {
 
     #[test]
     fn exit_code_maps_verified_state() {
-        let mut r = Report {
-            verified: false,
-            unsigned: true,
-            trusted: None,
-            failure_reason: None,
-            active_manifest: None,
-            signer: None,
-            signed_at: None,
-            claim_generator: None,
-            assertions: serde_json::Value::Null,
-            ingredient_count: 0,
-            format: None,
-            validation_errors: 0,
-        };
+        let mut r = unsigned_report(None);
         assert_eq!(r.exit_code(), 1);
         r.verified = true;
         assert_eq!(r.exit_code(), 0);
