@@ -1,1 +1,2 @@
-// TODO: atrium implementation(s)
+#![allow(dead_code)]
+pub trait AuthenticationProvider {}

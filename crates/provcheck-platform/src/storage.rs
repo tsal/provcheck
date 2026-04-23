@@ -1,1 +1,2 @@
-// TODO: IPFS / PDS storage implementations
+#![allow(dead_code)]
+pub trait StorageProvider {}
