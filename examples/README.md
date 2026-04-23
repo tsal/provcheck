@@ -1,14 +1,16 @@
 # Example signed media
 
-Two files here to kick the tires with. Both carry real C2PA Content
-Credentials and verify cleanly under `provcheck`.
+Four sample files here to kick the tires with — two cryptographically
+verified, two deliberately unsigned. All four are used by
+`provcheck-core`'s integration suite so accidental corruption fails
+CI before you see it.
 
 ## `rAIdio.bot-sample.mp3` (+ `rAIdio.bot-sample.c2pa` sidecar)
 
 ~2 MB AI-generated music (808 trap tune) produced by
 [**rAIdio.bot**](https://store.steampowered.com/app/4600000), a
 local-first AI music generation studio from
-[Creative Mayhem UG](https://creativemayhem.app).
+[Creative Mayhem UG](https://creativemayhem.com).
 
 Signed with a C2PA manifest that includes:
 
@@ -30,7 +32,7 @@ provcheck examples/rAIdio.bot-sample.mp3
 
 ~660 KB short AI-generated video bumper from
 [**Doomscroll.fm**](https://doomscroll.fm) — an autonomous AI
-satirical news broadcast by [Creative Mayhem UG](https://creativemayhem.app),
+satirical news broadcast by [Creative Mayhem UG](https://creativemayhem.com),
 producing ~10–12 episodes per day, all signed at source.
 
 Signed with a C2PA manifest that includes:

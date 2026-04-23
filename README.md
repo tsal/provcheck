@@ -26,8 +26,8 @@ below for the full roadmap.
 
 ### Pre-built binaries (Stage 1, coming soon)
 
-Download the matching archive from the [Releases page](https://github.com/rAIdio-bot/provcheck/releases)
-and unpack:
+Download the matching archive from the [Releases page](https://github.com/CreativeMayhemLtd/provcheck/releases)
+or grab it directly from [provcheck.ai](https://provcheck.ai) and unpack:
 
 - Windows — `provcheck-<version>-windows-x86_64.zip`
 - macOS — `provcheck-<version>-macos-{x86_64,aarch64}.tar.gz`
@@ -44,7 +44,7 @@ Desktop installer with drag-and-drop verification.
 ### From source
 
 ```bash
-git clone https://github.com/rAIdio-bot/provcheck.git
+git clone https://github.com/CreativeMayhemLtd/provcheck.git
 cd provcheck
 cargo build --release -p provcheck-cli
 ./target/release/provcheck <file>
@@ -145,9 +145,9 @@ Apache-2.0. See [LICENSE](./LICENSE).
 
 ## Authors
 
-`provcheck` is maintained by **[Creative Mayhem UG](https://creativemayhem.app)**
-(the studio behind rAIdio.bot and vAIdeo.bot). Contact:
-[info@rAIdio.bot](mailto:info@rAIdio.bot).
+`provcheck` is maintained by **[Creative Mayhem UG](https://creativemayhem.com)**,
+a Berlin studio. Website: [provcheck.ai](https://provcheck.ai).
+Contact: [info@rAIdio.bot](mailto:info@rAIdio.bot).
 
 The C2PA standard itself is developed by the
 [Coalition for Content Provenance and Authenticity](https://c2pa.org).

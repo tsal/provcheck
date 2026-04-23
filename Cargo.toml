@@ -12,8 +12,8 @@ edition = "2024"
 rust-version = "1.85"
 license = "Apache-2.0"
 authors = ["Creative Mayhem UG <info@rAIdio.bot>"]
-repository = "https://github.com/rAIdio-bot/provcheck"
-homepage = "https://github.com/rAIdio-bot/provcheck"
+repository = "https://github.com/CreativeMayhemLtd/provcheck"
+homepage = "https://provcheck.ai"
 readme = "README.md"
 
 [workspace.dependencies]
