@@ -5,10 +5,16 @@
 # the lock file pins every dep to a reproducible version. Library
 # crates omit it; binary crates commit it.
 
-# Tauri build output (Stage 3)
+# Tauri build output
 /app/src-tauri/target/
-/app/dist/
 /app/node_modules/
+
+# NOTE: `app/dist/` is NOT ignored. In a standard Tauri layout where
+# the frontend has a build step (Vite, Svelte, React), `dist/` is
+# the build artefact and gets ignored. This project ships vanilla
+# HTML/CSS/JS from `app/dist/` directly — Tauri's `frontendDist`
+# serves those files verbatim, no build step — so `app/dist/` IS
+# the source tree and must be tracked.
 
 # Editor / OS
 .vscode/
