@@ -28,13 +28,7 @@ pub mod render;
 
 pub mod prelude {
     pub use super::render;
-    pub use super::{
-      Error,
-      Report,
-      VerifyOptions,
-      verify,
-      verify_with_options,
-    };
+    pub use super::{Error, Report, VerifyOptions, verify, verify_with_options};
 }
 
 #[derive(Debug, thiserror::Error)]

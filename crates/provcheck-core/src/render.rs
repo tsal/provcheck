@@ -4,12 +4,10 @@
 //! and GUI both consume. Keeping rendering here — not scattered across
 //! front-ends — means "what the user sees" is reviewable in one place.
 
-use std::fmt::{Display, Formatter};
 use crate::Report;
-
+use std::fmt::{Display, Formatter};
 /// Multi-line plain-text report suitable for a terminal.
 impl Display for Report {
-
     /// Layout is deliberately terse: one claim per line, section headers
     /// in brackets. Readable in 80 columns.
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -84,9 +82,7 @@ impl Report {
 
 fn process_assertions(assertions: &serde_json::Value) -> String {
     use std::fmt::Write;
-
     let mut s = String::new();
-
     match assertions {
         serde_json::Value::Object(map) => {
             for (k, v) in map {
